@@ -15,7 +15,7 @@ import { ItemService } from 'src/app/modules/application/item/services/item.serv
 import { ListService } from 'src/app/modules/application/item/services/list-items.service';
 import { AuthServiceGuard } from 'src/app/shared/module/guards/jwt.guard';
 @Controller('grocery')
-@UseGuards(AuthServiceGuard) // Apply the guard at the controller level
+@UseGuards(AuthServiceGuard)
 export class ItemController {
   constructor(
     private readonly groceryService: ItemService,

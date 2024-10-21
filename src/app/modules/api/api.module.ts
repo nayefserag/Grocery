@@ -1,11 +1,6 @@
 import { Module } from '@nestjs/common';
-import { NotificationCommunicatorModule } from '../infrastructure/communicator/communicator.module';
-import { NotificationCommunicator } from '../infrastructure/communicator/notification.communicator';
 import { DatabaseModule } from '../database/database.module';
-import { ConfigService } from 'src/app/shared/module/config-module/config.service';
 import { HttpModule } from '@nestjs/axios';
-import { JwtService } from '@nestjs/jwt';
-import { RabbitMQModule } from 'src/app/rabbitMQ/rabbit-mq.module';
 import { ItemService } from '../application/item/services/item.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Item, ItemSchema } from '../infrastructure/entites/item.entity';

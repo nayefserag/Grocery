@@ -1,6 +1,4 @@
-// src/item/grocery-list.service.ts
 import { Injectable, Logger, NotFoundException, BadRequestException } from '@nestjs/common';
-// Assuming you have the list DTOs
 import { Item } from 'src/app/modules/infrastructure/entites/item.entity';
 import { ListRepository } from 'src/app/modules/infrastructure/repositories/list/items-list.repositry';
 import { CreateListDto } from '../model/list.dto';

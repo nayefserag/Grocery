@@ -1,4 +1,3 @@
-// src/database/data-source.ts
 import { Logger } from '@nestjs/common';
 import { MongoClient, ServerApiVersion } from 'mongodb';
 import { config } from 'src/app/shared/module/config-module/config.service';

@@ -6,8 +6,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Item, ItemSchema } from './entites/item.entity';
 import { ItemRepository } from './repositories/item/item.repository';
 import { ListRepository } from './repositories/list/items-list.repositry';
-import { ApiModule } from '../api/api.module';
-import { ApplicationModule } from '../application/application.module';
 @Module({
   imports: [
     DatabaseModule,

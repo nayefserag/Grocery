@@ -1,171 +1,166 @@
-Here is the README content tailored for your project, excluding the API endpoints section:
+# Grocery and Order Management Microservice
 
-```markdown
-# Grocery and Order Management API
+This service is part of a microservices architecture and handles grocery item management, grocery lists, and orders. It communicates with the **Auth Service** to validate user tokens and interacts with the **Notification Service** to send order-related notifications. It provides REST APIs to manage items, grocery lists, and orders. The service also integrates with RabbitMQ for asynchronous message handling and utilizes JWT-based authentication for securing the API.
 
-This project is a **Grocery and Order Management API** built using **NestJS**. It provides endpoints to manage grocery items, grocery lists, and orders. The application follows a modular structure with controllers, services, repositories, and a message queue using RabbitMQ for handling order-related events.
+## Key Features
 
-## Project Structure
+- **Grocery Management**: Create, update, delete, and retrieve grocery items and grocery lists.
+- **Order Management**: Create, update, and manage customer orders, including updating order statuses.
+- **Communication with Auth Service**: Validates user tokens by communicating with the **Auth Service** to ensure secure access to the API endpoints.
+- **Communication with Notification Service**: Sends order-related notifications (e.g., order confirmation) by communicating with the **Notification Service** through RabbitMQ and HTTP calls.
+- **RabbitMQ Integration**: Facilitates asynchronous message handling for inter-service communication.
+- **JWT Authentication**: Ensures that all endpoints are secured, allowing only authenticated users to interact with the service.
+- **Structured Logging and Error Tracking**: Utilizes Winston for logging and Sentry for error tracking in production environments.
 
-```bash
-src
-├── app
-│   ├── modules
-│   │   ├── api
-│   │   │   ├── item
-│   │   │   │   ├── controller
-│   │   │   │   │   └── item.controller.ts  # Grocery item-related routes
-│   │   │   │   └── item.module.ts          # Item module definition
-│   │   │   └── order
-│   │   │       └── order.controller.ts     # Order-related routes
-│   │   ├── application
-│   │   │   ├── item
-│   │   │   │   ├── services
-│   │   │   │   │   └── item.service.ts     # Service for managing grocery items
-│   │   │   │   ├── model
-│   │   │   │   │   └── item.dto.ts         # DTO for creating/updating items
-│   │   │   └── orders
-│   │   │       └── services
-│   │   │           └── order.service.ts    # Service for managing orders
-│   │   ├── database
-│   │   │   └── database.module.ts          # Database connection configurations
-│   │   └── infrastructure
-│   │       └── repositories
-│   │           ├── item.repository.ts      # Item repository for data access
-│   │           ├── order.repository.ts     # Order repository for data access
-│   ├── rabbitMQ
-│   │   ├── rabbit-mq-consumer.ts           # RabbitMQ consumer for handling message events
-│   │   └── rabbit-mq-publisher.ts          # RabbitMQ publisher to send messages
-│   └── app.module.ts                       # Application module root
-└── main.ts                                 # Entry point of the application
+## Table of Contents
+
+1. [Technologies Used](#technologies-used)
+2. [File Structure](#file-structure)
+3. [Inter-Service Communication](#inter-service-communication)
+4. [RabbitMQ Integration](#rabbitmq-integration)
+5. [Running the Service](#running-the-service)
+6. [Endpoints](#endpoints)
+7. [Development](#development)
+
+---
+
+### Technologies Used
+
+- **NestJS**: A framework for building efficient, scalable Node.js server-side applications.
+- **RabbitMQ**: Used for message queueing, facilitating asynchronous event-driven communication.
+- **MySQL**: Relational database to store data for items, orders, and users.
+- **TypeORM**: ORM for working with relational databases.
+- **MongoDB/Mongoose**: (Optional) Used for storing unstructured data.
+- **JWT (JSON Web Tokens)**: Secures the API endpoints by authenticating users.
+- **Winston**: Logging library used for structured logging.
+- **Sentry**: Error monitoring and performance tracking tool.
+
+### File Structure
+
+```plaintext
+src/
+├── app/
+│   ├── modules/
+│   │   ├── item/                          # Manages grocery items and lists
+│   │   │   ├── controller/
+│   │   │   ├── services/
+│   │   │   └── model/
+│   │   ├── order/                         # Manages order creation and updates
+│   │   │   ├── controller/
+│   │   │   ├── services/
+│   │   │   └── model/
+├── database/                              # Database configuration and connection settings
+├── infrastructure/                        # Core system infrastructure like RabbitMQ, logging, error tracking
+│   ├── rabbitMQ/                          # RabbitMQ consumers, configuration, and utilities
+├── shared/                                # Shared utilities, DTOs, and common modules
+├── main.ts                                # Application entry point
 ```
 
----
+### Inter-Service Communication
 
-## Installation
+This service communicates with two other microservices to ensure smooth operations:
 
-To run this project locally, you'll need to follow these steps.
+1. **Auth Service**: 
+   - Before processing any request, the service communicates with the **Auth Service** to validate the JWT tokens provided by users. This ensures that only authenticated users can access or modify grocery items, lists, and orders.
+   - This communication occurs through **HTTP requests** to the Auth Service’s validation endpoints.
 
-1. **Clone the Repository**
+2. **Notification Service**:
+   - Once an order is created or updated, the service interacts with the **Notification Service** to send order-related notifications (e.g., order confirmation emails).
+   - This communication is achieved through two methods:
+     - **RabbitMQ** for asynchronous, event-driven notifications.
+     - **HTTP calls** for direct, synchronous interactions when needed.
 
-   ```bash
-   git clone <your-repository-url>
-   cd <your-repository-directory>
-   ```
+### RabbitMQ Integration
 
-2. **Install Dependencies**
+The service integrates with **RabbitMQ** for handling asynchronous communication between microservices. It listens to messages for events related to grocery items and orders. This allows the service to handle tasks like order processing in the background without blocking HTTP requests.
 
-   Run the following command to install all dependencies:
+- **Order Events**: The service consumes messages from a RabbitMQ queue for order events such as order placement and status updates.
+- **Grocery Events**: Grocery-related actions like list creation and item management can also be triggered by RabbitMQ events.
 
-   ```bash
-   npm install
-   ```
+RabbitMQ configuration and consumers are managed in the `src/app/rabbitMQ/` directory, with handlers for different message types and queues.
 
-3. **Set up Environment Variables**
+### Running the Service
 
-   Create a `.env` file in the root of the project and add the following environment variables:
+#### Prerequisites
 
-   ```bash
-   DATABASE_URL=<your_database_connection_string>
-   RABBITMQ_URL=<your_rabbitmq_url>
-   EMAIL_VERIFICATION_QUEUE=email-verification
-   ORDER_QUEUE=order-processing
-   PORT=3000
-   ```
+- **Node.js**
+- **MySQL**
+- **RabbitMQ**
+- **MongoDB** (if applicable)
+- **Docker** (optional for containerized setup)
 
-4. **Run the Application**
+#### Steps
 
-   To run the application in development mode:
+1. Install dependencies:
+    ```bash
+    npm install
+    ```
 
-   ```bash
-   npm run start:dev
-   ```
+2. Set up environment variables (e.g., `.env`):
+    ```plaintext
+    DATABASE_URL=mysql://user:password@localhost:3306/grocery_service
+    RABBITMQ_URL=amqp://localhost
+    AUTH_SERVICE_URL=http://auth-service-url/validate-token
+    NOTIFICATION_SERVICE_URL=http://notification-service-url/
+    JWT_SECRET=your_jwt_secret
+    ```
 
-   The server will be running at `http://localhost:3000`.
+3. Run the service:
+    ```bash
+    npm start
+    ```
 
-## Scripts
+4. Run in development mode with live-reloading:
+    ```bash
+    npm run start:dev
+    ```
 
-- **`npm run build`**: Build the application.
-- **`npm run start`**: Start the application.
-- **`npm run start:dev`**: Start the application in watch mode (for development).
-- **`npm run test`**: Run unit tests.
-- **`npm run test:e2e`**: Run end-to-end tests.
-- **`npm run lint`**: Run ESLint to check code quality.
+5. For production build:
+    ```bash
+    npm run build
+    npm run start:prod
+    ```
 
----
+### Endpoints
 
-## Technologies Used
+#### Grocery Management
 
-- **NestJS**: A progressive Node.js framework for building efficient and scalable server-side applications.
-- **TypeScript**: Superset of JavaScript which adds static typing.
-- **MongoDB**: NoSQL database for data storage (with Mongoose ODM).
-- **RabbitMQ**: A message-broker used for message passing and processing.
-- **Jest**: Testing framework for unit and integration tests.
-- **Sentry**: For error tracking and logging.
-- **Prettier & ESLint**: Tools for code formatting and linting.
+- **POST** `/grocery/items`: Create a new grocery item.
+- **GET** `/grocery/items`: Get all grocery items.
+- **GET** `/grocery/items/:id`: Get a specific grocery item by ID.
+- **PATCH** `/grocery/items/:id`: Update a grocery item by ID.
+- **DELETE** `/grocery/items/:id`: Delete a grocery item by ID.
 
----
+- **POST** `/grocery/lists`: Create a new grocery list.
+- **GET** `/grocery/lists`: Get all grocery lists.
+- **GET** `/grocery/lists/:id`: Get a specific grocery list by ID.
+- **PATCH** `/grocery/lists/:id`: Update a grocery list by ID.
+- **DELETE** `/grocery/lists/:id`: Delete a grocery list by ID.
 
-## Modules
+#### Order Management
 
-The application is split into different modules, each representing a different functionality:
+- **POST** `/orders`: Create a new order.
+- **GET** `/orders`: Get all orders.
+- **GET** `/orders/:id`: Get a specific order by ID.
+- **PATCH** `/orders/:id/status`: Update the status of an order.
+- **DELETE** `/orders/:id`: Delete an order by ID.
 
-1. **Item Module**: This module handles all operations related to grocery items.
-    - **Controller**: `item.controller.ts`
-    - **Service**: `item.service.ts`
-    - **Repository**: `item.repository.ts`
-    
-2. **List Module**: This module manages grocery lists.
-    - **Controller**: `list.controller.ts`
-    - **Service**: `list-items.service.ts`
-    - **Repository**: `items-list.repository.ts`
-    
-3. **Order Module**: This module manages order creation, updating, and status tracking.
-    - **Controller**: `order.controller.ts`
-    - **Service**: `order.service.ts`
-    - **Repository**: `order.repository.ts`
-    - **RabbitMQ Integration**: `rabbit-mq-publisher.ts`, `rabbit-mq-consumer.ts`
+### Development
 
-4. **RabbitMQ Integration**: This is responsible for handling asynchronous messaging between services.
-    - **Publisher**: Publishes messages to the RabbitMQ queue.
-    - **Consumer**: Listens for messages from the queue and processes them.
+- **Testing**: Unit and e2e tests are configured using Jest.
+    ```bash
+    npm run test
+    ```
 
----
+- **Linting**: Use ESLint to check for code quality and formatting.
+    ```bash
+    npm run lint
+    ```
 
-## RabbitMQ Integration
-
-The application integrates with **RabbitMQ** for handling order-related events. When an order is created, the order data is published to a queue.
-
-- **Order Queue**: When an order is created, it's published to the queue (`order-processing`).
-- **Consumer**: The consumer listens to the order queue and processes the messages asynchronously.
-
----
-
-## Testing
-
-The project includes **unit tests** and **end-to-end tests**. You can run the tests using:
-
-```bash
-npm run test        # Run unit tests
-npm run test:e2e    # Run end-to-end tests
-```
-
-## Contributing
-
-Feel free to submit issues or pull requests if you'd like to contribute to this project. 
-
-## License
-
-This project is licensed under the **UNLICENSED** License.
-```
+- **Docker**: You can also run the service in Docker:
+    ```bash
+    docker build -t grocery-service .
+    docker run -p 3000:3000 grocery-service
+    ```
 
 ---
-
-### Instructions for Saving:
-
-1. Copy the above content.
-2. Create a `README.md` file in the root directory of your project.
-3. Paste the copied content into the `README.md` file.
-4. Save the file.
-
-You can now attach this README to your project!

@@ -9,11 +9,13 @@ import {
   UseGuards,
   HttpCode,
   HttpStatus,
-  Request,
 } from '@nestjs/common';
+import { CreateItemDto } from 'src/app/modules/application/item/model/item.dto';
+import { CreateListDto } from 'src/app/modules/application/item/model/list.dto';
 import { ItemService } from 'src/app/modules/application/item/services/item.service';
 import { ListService } from 'src/app/modules/application/item/services/list-items.service';
 import { AuthServiceGuard } from 'src/app/shared/module/guards/jwt.guard';
+
 @Controller('grocery')
 @UseGuards(AuthServiceGuard)
 export class ItemController {
@@ -22,10 +24,10 @@ export class ItemController {
     private readonly listService: ListService,
   ) {}
 
-  // ------------------- Grocery Item Endpoints -------------------
+  // Create a new grocery item
   @Post('items')
   @HttpCode(HttpStatus.CREATED)
-  async createGroceryItem(@Body() createItemDto) {
+  async createGroceryItem(@Body() createItemDto: CreateItemDto) {
     const newItem = await this.groceryService.createItem(createItemDto);
     return {
       message: 'Grocery item created successfully',
@@ -33,13 +35,14 @@ export class ItemController {
     };
   }
 
+  // Get all grocery items
   @Get('items')
   @HttpCode(HttpStatus.OK)
-  async getAllGroceryItems() {
-    const items = await this.groceryService.getAllItems();
-    return items;
+  async getAllGroceryItems(): Promise<CreateItemDto[]> {
+    return await this.groceryService.getAllItems();
   }
 
+  // Get a specific grocery item by ID
   @Get('items/:id')
   @HttpCode(HttpStatus.OK)
   async getGroceryItem(@Param('id') id: string) {
@@ -47,9 +50,13 @@ export class ItemController {
     return item;
   }
 
+  // Update a grocery item by ID
   @Patch('items/:id')
   @HttpCode(HttpStatus.OK)
-  async updateGroceryItem(@Param('id') id: string, @Body() updateItemDto) {
+  async updateGroceryItem(
+    @Param('id') id: string,
+    @Body() updateItemDto: Partial<CreateItemDto>,
+  ) {
     const updatedItem = await this.groceryService.updateItem(id, updateItemDto);
     return {
       message: 'Grocery item updated successfully',
@@ -57,6 +64,7 @@ export class ItemController {
     };
   }
 
+  // Delete a grocery item by ID
   @Delete('items/:id')
   @HttpCode(HttpStatus.OK)
   async deleteGroceryItem(@Param('id') id: string) {
@@ -66,9 +74,10 @@ export class ItemController {
     };
   }
 
+  // Create a new grocery list
   @Post('lists')
   @HttpCode(HttpStatus.CREATED)
-  async createGroceryList(@Body() createListDto) {
+  async createGroceryList(@Body() createListDto: CreateListDto) {
     const newList = await this.listService.createGroceryList(createListDto);
     return {
       message: 'Grocery list created successfully',
@@ -76,13 +85,14 @@ export class ItemController {
     };
   }
 
+  // Get all grocery lists
   @Get('lists')
   @HttpCode(HttpStatus.OK)
   async getAllGroceryLists() {
-    const lists = await this.listService.getAllGroceryLists();
-    return lists;
+    return await this.listService.getAllGroceryLists();
   }
 
+  // Get a specific grocery list by ID
   @Get('lists/:id')
   @HttpCode(HttpStatus.OK)
   async getGroceryList(@Param('id') id: string) {
@@ -90,9 +100,13 @@ export class ItemController {
     return list;
   }
 
+  // Update a grocery list by ID
   @Patch('lists/:id')
   @HttpCode(HttpStatus.OK)
-  async updateGroceryList(@Param('id') id: string, @Body() updateListDto) {
+  async updateGroceryList(
+    @Param('id') id: string,
+    @Body() updateListDto: Partial<CreateListDto>,
+  ) {
     const updatedList = await this.listService.updateGroceryList(
       id,
       updateListDto,
@@ -103,6 +117,7 @@ export class ItemController {
     };
   }
 
+  // Delete a grocery list by ID
   @Delete('lists/:id')
   @HttpCode(HttpStatus.OK)
   async deleteGroceryList(@Param('id') id: string) {

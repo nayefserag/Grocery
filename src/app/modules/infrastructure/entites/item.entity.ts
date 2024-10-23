@@ -1,4 +1,3 @@
-// src/item/item.schema.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
@@ -7,10 +6,16 @@ export class Item extends Document {
   @Prop({ required: true })
   name: string;
 
-  @Prop()
+  @Prop({ required: true, min: 0 })
+  quantity: number;
+
+  @Prop({ required: true })
+  category: string; 
+
+  @Prop({ required: true })
   description: string;
 
-  @Prop({ required: true, type: Number })
+  @Prop({ required: true, min: 0 })
   price: number;
 
   @Prop({ default: Date.now })

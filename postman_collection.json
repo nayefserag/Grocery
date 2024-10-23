@@ -1,0 +1,434 @@
+{
+	"info": {
+	  "_postman_id": "uuid-generated-here",
+	  "name": "Grocery and Orders MicroServices API",
+	  "description": "API for managing grocery items, lists, and orders",
+	  "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+	  {
+		"name": "Grocery Items",
+		"item": [
+		  {
+			"name": "Create Grocery Item",
+			"request": {
+			  "method": "POST",
+			  "header": [
+				{
+				  "key": "Content-Type",
+				  "value": "application/json",
+				  "type": "text"
+				},
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}",
+				  "type": "text"
+				}
+			  ],
+			  "body": {
+				"mode": "raw",
+				"raw": "{\n  \"name\": \"Apple\",\n  \"description\": \"A fresh apple\",\n  \"price\": 1.50\n}"
+			  },
+			  "url": {
+				"raw": "http://localhost:3000/grocery/items",
+				"protocol": "http",
+				"host": ["localhost"],
+				"port": "3000",
+				"path": ["grocery", "items"]
+			  }
+			}
+		  },
+		  {
+			"name": "Get All Grocery Items",
+			"request": {
+			  "method": "GET",
+			  "header": [
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}",
+				  "type": "text"
+				}
+			  ],
+			  "url": {
+				"raw": "http://localhost:3000/grocery/items",
+				"protocol": "http",
+				"host": ["localhost"],
+				"port": "3000",
+				"path": ["grocery", "items"]
+			  }
+			}
+		  },
+		  {
+			"name": "Get Grocery Item by ID",
+			"request": {
+			  "method": "GET",
+			  "header": [
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}",
+				  "type": "text"
+				}
+			  ],
+			  "url": {
+				"raw": "http://localhost:3000/grocery/items/:id",
+				"protocol": "http",
+				"host": ["localhost"],
+				"port": "3000",
+				"path": ["grocery", "items", ":id"],
+				"variable": [
+				  {
+					"key": "id",
+					"value": "replace_with_item_id"
+				  }
+				]
+			  }
+			}
+		  },
+		  {
+			"name": "Update Grocery Item",
+			"request": {
+			  "method": "PATCH",
+			  "header": [
+				{
+				  "key": "Content-Type",
+				  "value": "application/json",
+				  "type": "text"
+				},
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}",
+				  "type": "text"
+				}
+			  ],
+			  "body": {
+				"mode": "raw",
+				"raw": "{\n  \"name\": \"Green Apple\",\n  \"price\": 2.00\n}"
+			  },
+			  "url": {
+				"raw": "http://localhost:3000/grocery/items/:id",
+				"protocol": "http",
+				"host": ["localhost"],
+				"port": "3000",
+				"path": ["grocery", "items", ":id"],
+				"variable": [
+				  {
+					"key": "id",
+					"value": "replace_with_item_id"
+				  }
+				]
+			  }
+			}
+		  },
+		  {
+			"name": "Delete Grocery Item",
+			"request": {
+			  "method": "DELETE",
+			  "header": [
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}",
+				  "type": "text"
+				}
+			  ],
+			  "url": {
+				"raw": "http://localhost:3000/grocery/items/:id",
+				"protocol": "http",
+				"host": ["localhost"],
+				"port": "3000",
+				"path": ["grocery", "items", ":id"],
+				"variable": [
+				  {
+					"key": "id",
+					"value": "replace_with_item_id"
+				  }
+				]
+			  }
+			}
+		  }
+		]
+	  },
+	  {
+		"name": "Grocery Lists",
+		"item": [
+		  {
+			"name": "Create Grocery List",
+			"request": {
+			  "method": "POST",
+			  "header": [
+				{
+				  "key": "Content-Type",
+				  "value": "application/json",
+				  "type": "text"
+				},
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}",
+				  "type": "text"
+				}
+			  ],
+			  "body": {
+				"mode": "raw",
+				"raw": "{\n  \"name\": \"Weekly Shopping\",\n  \"items\": [\"64dfc3f9a6c907a295efb123\", \"64dfc3f9a6c907a295efb124\"]\n}"
+			  },
+			  "url": {
+				"raw": "http://localhost:3000/grocery/lists",
+				"protocol": "http",
+				"host": ["localhost"],
+				"port": "3000",
+				"path": ["grocery", "lists"]
+			  }
+			}
+		  },
+		  {
+			"name": "Get All Grocery Lists",
+			"request": {
+			  "method": "GET",
+			  "header": [
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}",
+				  "type": "text"
+				}
+			  ],
+			  "url": {
+				"raw": "http://localhost:3000/grocery/lists",
+				"protocol": "http",
+				"host": ["localhost"],
+				"port": "3000",
+				"path": ["grocery", "lists"]
+			  }
+			}
+		  },
+		  {
+			"name": "Get Grocery List by ID",
+			"request": {
+			  "method": "GET",
+			  "header": [
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}",
+				  "type": "text"
+				}
+			  ],
+			  "url": {
+				"raw": "http://localhost:3000/grocery/lists/:id",
+				"protocol": "http",
+				"host": ["localhost"],
+				"port": "3000",
+				"path": ["grocery", "lists", ":id"],
+				"variable": [
+				  {
+					"key": "id",
+					"value": "replace_with_list_id"
+				  }
+				]
+			  }
+			}
+		  },
+		  {
+			"name": "Update Grocery List",
+			"request": {
+			  "method": "PATCH",
+			  "header": [
+				{
+				  "key": "Content-Type",
+				  "value": "application/json",
+				  "type": "text"
+				},
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}",
+				  "type": "text"
+				}
+			  ],
+			  "body": {
+				"mode": "raw",
+				"raw": "{\n  \"name\": \"Updated Shopping List\",\n  \"items\": [\"64dfc3f9a6c907a295efb125\", \"64dfc3f9a6c907a295efb126\"]\n}"
+			  },
+			  "url": {
+				"raw": "http://localhost:3000/grocery/lists/:id",
+				"protocol": "http",
+				"host": ["localhost"],
+				"port": "3000",
+				"path": ["grocery", "lists", ":id"],
+				"variable": [
+				  {
+					"key": "id",
+					"value": "replace_with_list_id"
+				  }
+				]
+			  }
+			}
+		  },
+		  {
+			"name": "Delete Grocery List",
+			"request": {
+			  "method": "DELETE",
+			  "header": [
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}",
+				  "type": "text"
+				}
+			  ],
+			  "url": {
+				"raw": "http://localhost:3000/grocery/lists/:id",
+				"protocol": "http",
+				"host": ["localhost"],
+				"port": "3000",
+				"path": ["grocery", "lists", ":id"],
+				"variable": [
+				  {
+					"key": "id",
+					"value": "replace_with_list_id"
+				  }
+				]
+			  }
+			}
+		  }
+		]
+	  },
+	  {
+		"name": "Orders",
+		"item": [
+		  {
+			"name": "Create Order",
+			"request": {
+			  "method": "POST",
+			  "header": [
+				{
+				  "key": "Content-Type",
+				  "value": "application/json",
+				  "type": "text"
+				},
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}",
+				  "type": "text"
+				}
+			  ],
+			  "body": {
+				"mode": "raw",
+				"raw": "{\n  \"customerId\": \"64dfc3f9a6c907a295efb123\",\n  \"items\": [\n    { \"itemId\": \"64dfc3f9a6c907a295efb124\", \"quantity\": 2 },\n    { \"itemId\": \"64dfc3f9a6c907a295efb125\", \"quantity\": 1 }\n  ],\n  \"totalPrice\": 100.00\n}"
+			  },
+			  "url": {
+				"raw": "http://localhost:3000/orders",
+				"protocol": "http",
+				"host": ["localhost"],
+				"port": "3000",
+				"path": ["orders"]
+			  }
+			}
+		  },
+		  {
+			"name": "Get All Orders",
+			"request": {
+			  "method": "GET",
+			  "header": [
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}",
+				  "type": "text"
+				}
+			  ],
+			  "url": {
+				"raw": "http://localhost:3000/orders",
+				"protocol": "http",
+				"host": ["localhost"],
+				"port": "3000",
+				"path": ["orders"]
+			  }
+			}
+		  },
+		  {
+			"name": "Get Order by ID",
+			"request": {
+			  "method": "GET",
+			  "header": [
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}",
+				  "type": "text"
+				}
+			  ],
+			  "url": {
+				"raw": "http://localhost:3000/orders/:id",
+				"protocol": "http",
+				"host": ["localhost"],
+				"port": "3000",
+				"path": ["orders", ":id"],
+				"variable": [
+				  {
+					"key": "id",
+					"value": "replace_with_order_id"
+				  }
+				]
+			  }
+			}
+		  },
+		  {
+			"name": "Update Order Status",
+			"request": {
+			  "method": "PATCH",
+			  "header": [
+				{
+				  "key": "Content-Type",
+				  "value": "application/json",
+				  "type": "text"
+				},
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}",
+				  "type": "text"
+				}
+			  ],
+			  "body": {
+				"mode": "raw",
+				"raw": "{\n  \"status\": \"shipped\"\n}"
+			  },
+			  "url": {
+				"raw": "http://localhost:3000/orders/:id/status",
+				"protocol": "http",
+				"host": ["localhost"],
+				"port": "3000",
+				"path": ["orders", ":id", "status"],
+				"variable": [
+				  {
+					"key": "id",
+					"value": "replace_with_order_id"
+				  }
+				]
+			  }
+			}
+		  },
+		  {
+			"name": "Delete Order",
+			"request": {
+			  "method": "DELETE",
+			  "header": [
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}",
+				  "type": "text"
+				}
+			  ],
+			  "url": {
+				"raw": "http://localhost:3000/orders/:id",
+				"protocol": "http",
+				"host": ["localhost"],
+				"port": "3000",
+				"path": ["orders", ":id"],
+				"variable": [
+				  {
+					"key": "id",
+					"value": "replace_with_order_id"
+				  }
+				]
+			  }
+			}
+		  }
+		]
+	  }
+	]
+  }
+  

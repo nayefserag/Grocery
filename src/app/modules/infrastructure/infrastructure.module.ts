@@ -6,10 +6,17 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Item, ItemSchema } from './entites/item.entity';
 import { ItemRepository } from './repositories/item/item.repository';
 import { ListRepository } from './repositories/list/items-list.repositry';
+import { ListItems, ListItemsSchema } from './entites/list.item.entity';
+import { OrderRepository } from './repositories/order/order.repositry';
+import { Order, OrderSchema } from './entites/order.entity';
 @Module({
   imports: [
     DatabaseModule,
-    MongooseModule.forFeature([{ name: Item.name, schema: ItemSchema }]),
+    MongooseModule.forFeature([
+      { name: Item.name, schema: ItemSchema },
+      { name: ListItems.name, schema: ListItemsSchema },
+      { name: Order.name, schema: OrderSchema },
+    ]),
     WinstonModule.forRoot({
       level: 'info',
       format: winston.format.combine(
@@ -29,7 +36,7 @@ import { ListRepository } from './repositories/list/items-list.repositry';
     }),
   ],
   controllers: [],
-  providers: [ItemRepository,ListRepository],
-  exports: [ItemRepository,ListRepository],
+  providers: [ItemRepository, ListRepository, OrderRepository],
+  exports: [ItemRepository, ListRepository, OrderRepository],
 })
 export class InfrastructureModule {}

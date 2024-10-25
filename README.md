@@ -1,7 +1,10 @@
 # Grocery and Order Management Microservice
-<div align="center">
-  <img src="./images/logo.jpg" alt="System Architecture" width="500"/>
-</div>
+<h1 align="center">Grocery</h1>
+<p align="center">
+  <a href="http://nestjs.com/" target="blank">
+    <img src="logo.jpg" width="400" alt="Nest Logo" />
+  </a>
+</p>
 
 This service is part of a microservices architecture and handles grocery item management, grocery lists, and orders. It communicates with the **Auth Service** to validate user tokens and interacts with the **Notification Service** to send order-related notifications. It provides REST APIs to manage items, grocery lists, and orders. The service also integrates with RabbitMQ for asynchronous message handling and utilizes JWT-based authentication for securing the API.
 

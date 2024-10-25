@@ -1,8 +1,7 @@
 # Grocery and Order Management Microservice
-<h1 align="center">Grocery</h1>
 <p align="center">
   <a href="http://nestjs.com/" target="blank">
-    <img src="logo.jpg" width="400" alt="Nest Logo" />
+    <img src="logo.jpg" width="400" alt="Nest Logo" style="border-radius: 20px;" />
   </a>
 </p>
 

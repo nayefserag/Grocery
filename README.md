@@ -1,4 +1,7 @@
 # Grocery and Order Management Microservice
+<div align="center">
+  <img src="./images/logo.jpg" alt="System Architecture" width="500"/>
+</div>
 
 This service is part of a microservices architecture and handles grocery item management, grocery lists, and orders. It communicates with the **Auth Service** to validate user tokens and interacts with the **Notification Service** to send order-related notifications. It provides REST APIs to manage items, grocery lists, and orders. The service also integrates with RabbitMQ for asynchronous message handling and utilizes JWT-based authentication for securing the API.
 
@@ -38,22 +41,94 @@ This service is part of a microservices architecture and handles grocery item ma
 ### File Structure
 
 ```plaintext
-src/
-├── app/
-│   ├── modules/
-│   │   ├── item/                          # Manages grocery items and lists
-│   │   │   ├── controller/
-│   │   │   ├── services/
-│   │   │   └── model/
-│   │   ├── order/                         # Manages order creation and updates
-│   │   │   ├── controller/
-│   │   │   ├── services/
-│   │   │   └── model/
-├── database/                              # Database configuration and connection settings
-├── infrastructure/                        # Core system infrastructure like RabbitMQ, logging, error tracking
-│   ├── rabbitMQ/                          # RabbitMQ consumers, configuration, and utilities
-├── shared/                                # Shared utilities, DTOs, and common modules
-├── main.ts                                # Application entry point
+|-- README.md
+|-- combined.log
+|-- debug.log
+|-- error.log
+|-- nest-cli.json
+|-- package-lock.json
+|-- package.json
+|-- postman_collection.json
+|-- src
+|   |-- app
+|   |   |-- modules
+|   |   |   |                               `-- api
+|   |   |   |   |                           `-- api.module.ts
+|   |   |   |   |                           `-- item
+|   |   |   |   |   |                       `-- controller
+|   |   |   |   |   |                       `-- item.controller.ts
+|   |   |   |   |   `-- item.module.ts
+|   |   |   |   `-- order
+|   |   |   |       |-- controller
+|   |   |   |       |                       `-- order.controller.ts
+|   |   |   |       `-- order.module.ts
+|   |   |   |-- application
+|   |   |   |   |-- application.module.ts
+|   |   |   |   |-- item
+|   |   |   |   |   |-- model
+|   |   |   |   |   |   |                   `-- item.dto.ts
+|   |   |   |   |   |                       `-- list.dto.ts
+|   |   |   |   |   `-- services
+|   |   |   |   |       |                   `-- item.service.ts
+|   |   |   |   |                           `-- list-items.service.ts
+|   |   |   |   `-- orders
+|   |   |   |       |-- model
+|   |   |   |       |                       `-- order.dto.ts
+|   |   |   |       `-- services
+|   |   |   |                               `-- order.service.ts
+|   |   |   |-- database
+|   |   |   |   |-- data-source.ts
+|   |   |   |   `-- database.module.ts
+|   |   |   `-- infrastructure
+|   |   |       |-- communicator
+|   |   |       |   |-- communicator.module.ts
+|   |   |       |   `-- notification.communicator.ts
+|   |   |       |-- entites
+|   |   |       |   |-- item.entity.ts
+|   |   |       |   |-- list.item.entity.ts
+|   |   |       |   `-- order.entity.ts
+|   |   |       |-- infrastructure.module.ts
+|   |   |       |-- repositories
+|   |   |       |   |-- item
+|   |   |       |   |                       `-- item.repository.ts
+|   |   |       |   |-- list
+|   |   |       |   |                       `-- items-list.repositry.ts
+|   |   |       |   `-- order
+|   |   |       |                           `-- order.repositry.ts
+|   |   |       `-- sentry
+|   |   |           `-- instrument.ts
+|   |   |-- rabbitMQ
+|   |   |   |-- connector.ts
+|   |   |   |-- consumer-options.ts
+|   |   |   |-- exchange.definition.ts
+|   |   |   |-- queue-consumer.decorator.ts
+|   |   |   |-- queue.difinition.ts
+|   |   |   |-- rabbit-mq-consumer.ts
+|   |   |   |-- rabbit-mq-publisher.ts
+|   |   |   `-- rabbit-mq.module.ts
+|   |   `-- shared
+|   |       |-- enums
+|   |       |   `-- order-status.enum.ts
+|   |       |-- interfaces
+|   |       |   `-- IEnvConfigInterface.ts
+|   |       |-- module
+|   |       |   |-- config-module
+|   |       |   |   |-- config.module.ts
+|   |       |   |   `-- config.service.ts
+|   |       |   `-- guards
+|   |       |       `-- jwt.guard.ts
+|   |       `-- utils
+|   |           |-- generator.helper.ts
+|   |           `-- hash.helper.ts
+|   |-- app.module.ts
+|   `-- main.ts
+|-- test
+|   |-- app.e2e-spec.ts
+|   `-- jest-e2e.json
+|-- tsconfig.build.json
+|-- tsconfig.json
+`-- warn.log
+
 ```
 
 ### Inter-Service Communication

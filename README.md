@@ -75,3 +75,5 @@ MIT
 ---
 
 <sub>If this project helped you, consider giving it a ⭐</sub>
+
+<sub>Built with ❤️ — contributions welcome.</sub>

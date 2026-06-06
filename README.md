@@ -71,3 +71,7 @@ npm run test:cov   # coverage
 ## 📄 License
 
 MIT
+
+---
+
+<sub>If this project helped you, consider giving it a ⭐</sub>

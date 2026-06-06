@@ -5,6 +5,7 @@
 ![RabbitMQ](https://img.shields.io/badge/RabbitMQ-FF6600?logo=rabbitmq&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-green)
+![CI](https://github.com/nayefserag/Grocery/actions/workflows/ci.yml/badge.svg)
 
 A **NestJS microservice** that manages grocery items, shopping lists, and customer orders inside a larger microservices ecosystem. It owns grocery business logic and coordinates with **Auth** and **Notification** services over HTTP and **RabbitMQ**.
 
